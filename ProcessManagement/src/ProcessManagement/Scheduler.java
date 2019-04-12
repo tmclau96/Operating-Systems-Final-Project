@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ProcessManagement;
 
-/**
- *
- * @author mclau
- */
 public class Scheduler {
     private static final int MAX_QUEUE_SIZE = 10;
     private int index;
