@@ -6,6 +6,12 @@ public class Process {
     private int arrival_time;
     private int run_time;
     
+    // Process states:
+    public static final String WAITING = "waiting";
+    public static final String RUNNING = "running";
+    public static final String TERMINATED = "terminated";
+    
+    
     public Process(int pid, String state, int arrival_time, int run_time)
     {
         this.pid = pid;
@@ -51,6 +57,11 @@ public class Process {
         return run_time;
     }//end get run time
     
+    @Override
+    public String toString() {
+        return "Process [PID = " + pid + " state = " + state + " Arrival Time = " + arrival_time
+                + " Run Time = " + run_time + "]";
+    }
 
 }//end class
 
