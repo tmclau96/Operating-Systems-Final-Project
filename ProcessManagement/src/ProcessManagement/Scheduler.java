@@ -4,7 +4,7 @@ import java.util.Random;
 import java.lang.Math;
 
 public class Scheduler {
-    private static final int MAX_QUEUE_SIZE = 1000;
+    private static final int MAX_QUEUE_SIZE = 500;
     private int index;
     Process[] readyQueue;
     int time = 0;
@@ -45,19 +45,28 @@ public class Scheduler {
                     int sd = 2;
                     // Random number following a Normal distribution
                     int runTime = (int) Math.round(rand.nextGaussian()) * sd + meanRunTime;
-                    int meanDelayTime = 4;
+                    int meanDelayTime = 5;
+                    sd = 1;
                     int arrivalDelayTime = (int) Math.round(rand.nextGaussian()) * sd + meanDelayTime;
-                    Scheduler.this.time += arrivalDelayTime;
+                    System.out.println(Scheduler.this.time);
+                    try {
+                            // Wait for process to arrive
+                            Thread.sleep(arrivalDelayTime);
+                            Scheduler.this.time += arrivalDelayTime;
+                        } catch (InterruptedException e) {
+                            System.out.println("Queue waiting for arival interrupted");
+                        }
 
                     Process p = new Process(Scheduler.this.pid, Process.WAITING, (time), runTime);
                     System.out.println(p);
                     Scheduler.this.pid++;
-                    if (addProcess(p) == 1) {
+                    while (addProcess(p) == 1) {
                         try {
                             // Wait for some process to finish
                             Thread.sleep(meanRunTime);
+                            Scheduler.this.time += meanRunTime;
                         } catch (InterruptedException e) {
-                            System.out.println("Queue waiting interrupted");
+                            System.out.println("Waiting for queue spot to open up interrupted");
                         }
                     }
                 }
