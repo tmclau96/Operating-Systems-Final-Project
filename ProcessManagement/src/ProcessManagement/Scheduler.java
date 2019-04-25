@@ -6,6 +6,7 @@ import java.lang.Math;
 public class Scheduler {
     private static final int MAX_QUEUE_SIZE = 500;
     private int index;
+    private CPU cpu;
     Process[] readyQueue;
     int time = 0;
     int pid = 1000;
@@ -73,5 +74,14 @@ public class Scheduler {
             }
         }).start();
         
-    }
-}
+    }//end of create proccess
+    
+    public void sendToCPU()
+    {
+        for(int i = 0; i < readyQueue.length; i++)  //FIFO
+        {
+            cpu = new CPU(readyQueue[i].getRunTime());
+            cpu.sleep();
+        }//end for loop
+    }//end send to cpu
+}//end of class
