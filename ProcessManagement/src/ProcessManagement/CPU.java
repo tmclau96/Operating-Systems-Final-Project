@@ -1,30 +1,44 @@
 package ProcessManagement;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * 
  * @author anastasiya
  */
-public class CPU {
-    private int sleepTime;
+public class CPU extends Thread {
+    private final Scheduler scheduler;
 	
-    public CPU(int sleepTime)
+    public CPU(Scheduler scheduler)
     {
-    	this.sleepTime=sleepTime;
+    	this.scheduler = scheduler;
     }
     
-    public void sleep()
+    @Override
+    public void run()
     {
-        try
-        {
-            Thread.sleep(sleepTime);
-            System.out.println(Thread.currentThread().getName()+" The task executed at "+ new Date());
-        }//end try
-        catch(InterruptedException ex)
-        {
-            System.out.println("error in sleep function");
-        }//end catch
+        while(true) {
+            try
+            {
+                Process runningProcess = null;
+                if (scheduler.readyQueue.size() != 0)
+                    runningProcess = scheduler.readyQueue.take(); // removes it from readyQueue
+                else {
+                    System.out.println("Queue is empty");
+                    Thread.sleep(4);
+                    continue;
+                }
+                runningProcess.setState(Process.RUNNING);
+                Thread.sleep(runningProcess.getRunTime());
+                System.out.println(Thread.currentThread().getName()+
+                        " Executed process  "+ runningProcess.getPID());
+            }//end try
+            catch(InterruptedException ex)
+            {
+                System.out.println("error in CPU sleep function");
+            }//end catch
+        }
     }
     // make a Thread sleep for run_time millis(?)
     
