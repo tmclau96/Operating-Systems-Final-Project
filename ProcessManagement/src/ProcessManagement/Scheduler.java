@@ -4,7 +4,7 @@ import java.util.Random;
 import java.lang.Math;
 
 public class Scheduler {
-    private static final int MAX_QUEUE_SIZE = 500;
+    private static final int MAX_QUEUE_SIZE = 1001;
     private int index;
     private CPU cpu;
     Process[] readyQueue;
