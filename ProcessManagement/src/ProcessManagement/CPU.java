@@ -1,9 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ProcessManagement;
+
+import java.util.Date;
 
 /**
  *
@@ -19,8 +16,15 @@ public class CPU {
     
     public void sleep()
     {
-    	Thread.sleep(sleepTime);
-    	System.out.println(Thread.currentThread().getName()+" The task executed at "+ new Date());
+        try
+        {
+            Thread.sleep(sleepTime);
+            System.out.println(Thread.currentThread().getName()+" The task executed at "+ new Date());
+        }//end try
+        catch(InterruptedException ex)
+        {
+            System.out.println("error in sleep function");
+        }//end catch
     }
     // make a Thread sleep for run_time millis(?)
     
