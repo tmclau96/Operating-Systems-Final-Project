@@ -22,7 +22,7 @@ public class CPU extends Thread {
             try
             {
                 Process runningProcess = null;
-                if (scheduler.readyQueue.size() != 0)
+                if (!scheduler.readyQueue.isEmpty())
                     runningProcess = scheduler.readyQueue.take(); // removes it from readyQueue
                 else {
                     System.out.println("Queue is empty");
