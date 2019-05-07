@@ -59,9 +59,8 @@ public class Process {
     
     @Override
     public String toString() {
-        return "Process [PID = " + pid + " state = " + state + " Arrival Time = " + arrival_time
-                + " Run Time = " + run_time + "]";
+        return "PID = " + pid + " state= " + state + " Arrival Time= " + arrival_time
+                + " Run Time= " + run_time + "]" + "\n";
     }
 
 }//end class
-
