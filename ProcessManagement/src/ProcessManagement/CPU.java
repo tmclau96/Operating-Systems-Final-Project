@@ -9,10 +9,12 @@ import java.util.concurrent.TimeUnit;
  */
 public class CPU extends Thread {
     private final Scheduler scheduler;
+    private final MainFrame frame;
 	
-    public CPU(Scheduler scheduler)
+    public CPU(Scheduler scheduler, MainFrame frame)
     {
     	this.scheduler = scheduler;
+        this.frame = frame;
     }
     
     @Override
@@ -31,8 +33,7 @@ public class CPU extends Thread {
                 }
                 runningProcess.setState(Process.RUNNING);
                 Thread.sleep(runningProcess.getRunTime());
-                System.out.println(Thread.currentThread().getName()+
-                        " Executed process  "+ runningProcess.getPID());
+                frame.onExecution(runningProcess); 
             }//end try
             catch(InterruptedException ex)
             {
