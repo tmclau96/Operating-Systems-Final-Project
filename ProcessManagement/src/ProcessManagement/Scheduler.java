@@ -1,8 +1,15 @@
 package ProcessManagement;
 
+
 import java.util.Random;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.lang.Math;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+
+import javax.swing.SwingUtilities;
+
 
 public class Scheduler {
     private static final int MAX_QUEUE_SIZE = 1001;
@@ -11,11 +18,15 @@ public class Scheduler {
     ArrayBlockingQueue<Process> readyQueue;
     int time = 0;
     int pid = 1000;
+    Process process;
+    MainFrame frame = new MainFrame();
     
     public Scheduler()
     {
         readyQueue = new ArrayBlockingQueue<Process>(MAX_QUEUE_SIZE, true);
-        this.cpu = new CPU(this);
+        this.cpu = new CPU(this,frame);
+        
+        
         //int index = 0;
     }//end of constructor
     
@@ -45,11 +56,14 @@ public class Scheduler {
     
     public void createProcesses()  //populate ready queue
     {
-        new Thread(new Runnable() {
-            @Override
+        
+        
+        
+        Thread thread1 = new Thread(){
             public void run() {
                 // Create 1002 processes
                 Scheduler.this.cpu.start();
+                
                 while(pid < 2002) {
                     Random rand = new Random();
                     int meanRunTime = 10;
@@ -68,36 +82,62 @@ public class Scheduler {
                             System.out.println("Queue waiting for arival interrupted");
                         }
 
-                    Process p = new Process(Scheduler.this.pid, Process.WAITING, (time), runTime);
-                    System.out.println(p);
+                    Process p = new Process(Scheduler.this.pid, Process.WAITING, (time), runTime);    //constructs Process
+                    
+                    
+                    
+                  
+                    
+                    
                     Scheduler.this.pid++;
                     try {
                     Scheduler.this.readyQueue.put(p);
+                    frame.onProcessCreation(readyQueue);
                     } catch (InterruptedException e){
                         e.printStackTrace();
                     }
-//                    while (addProcess(p) == 1) {
-//                        try {
-//                            // Wait for some process to finish
-//                            Thread.sleep(meanRunTime);
-//                            Scheduler.this.time += meanRunTime;
-//                        } catch (InterruptedException e) {
-//                            System.out.println("Waiting for queue spot to open up interrupted");
-//                        }
+
                 }
                     
             }
             
-        }).start();
+        };
+        thread1.start();
+        SwingUtilities.invokeLater(new Runnable(){
+                        
+                        
+                        public void run() {
+                            
+                            
+                            try {
+                                Thread.sleep(500);
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(Scheduler.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            frame.setSize(500,500);
+                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                            frame.setVisible(true);
+                            
+                            
+                            
+                            
+                            
+                            
+                        }
+                    });
         
     }//end of create proccess
     
-    public void sendToCPU()
-    {
-        //for(int i = 0; i < readyQueue.length; i++)  //FIFO
-        {
-            //cpu = new CPU(readyQueue[i].getRunTime());
-            //cpu.sleep();
-        }//end for loop
-    }//end send to cpu
+    
+    
+
+   
+   
+   
+    
+
+    
+    
+
+    
 }//end of class
