@@ -4,9 +4,8 @@ import java.awt.BorderLayout;
 import java.util.concurrent.ArrayBlockingQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.*;
+import java.awt.FlowLayout;
 
 
 /**
@@ -16,18 +15,21 @@ import javax.swing.ScrollPaneConstants;
 public class MainFrame extends JFrame{
     
     private Process process;
-    JTextArea processTextArea = new JTextArea(); 
-    JTextArea CPUTextArea = new JTextArea();
+    private JTextArea processTextArea = new JTextArea(); 
+    private JTextArea CPUTextArea = new JTextArea();
+    private JTextField queueStatus = new JTextField();
+    private JTextField rate = new JTextField();
     
     public MainFrame(){
             
             //Layout of Frame
            
            JPanel leftPanel = new JPanel();
-           
+           JPanel centerPanel = new JPanel();
            JPanel rightPanel = new JPanel();
            
            leftPanel.setLayout( new BorderLayout());
+           centerPanel.setLayout(new BorderLayout());
            rightPanel.setLayout( new BorderLayout());
            this.processTextArea.setLineWrap(true);
            this.processTextArea.setSize(500, 1000);
@@ -40,7 +42,19 @@ public class MainFrame extends JFrame{
            LScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
            RScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
            
-            
+           queueStatus.setEditable(false);
+           queueStatus.setSize(400, 100);
+           centerPanel.add(queueStatus, BorderLayout.SOUTH);
+           
+           JLabel rateLabel = new JLabel("Throughput:");
+           rate.setEditable(false);
+           rate.setSize(100, 100);
+           JPanel ratePanel = new JPanel();
+           ratePanel.setLayout(new FlowLayout());
+           ratePanel.add(rateLabel);
+           ratePanel.add(rate);
+           centerPanel.add(ratePanel, BorderLayout.CENTER);
+           
         //Creation of Components that will go into the Frame
             
             
@@ -51,6 +65,7 @@ public class MainFrame extends JFrame{
             leftPanel.add(LScroll);
             rightPanel.add(RScroll);
             this.add(leftPanel,BorderLayout.WEST);
+            this.add(centerPanel, BorderLayout.CENTER);
             this.add(rightPanel, BorderLayout.EAST);
             this.pack();
             
@@ -71,9 +86,14 @@ public class MainFrame extends JFrame{
             CPUTextArea.setText(CPUTextArea.getText()+ " Executed Process: " +p.getPID() + "\n");
         }
     }
-    
+
+    public void setQueueStatus(String status) {
+        queueStatus.setText(status);
     }
     
-
+    public void setThroughput(String rate) {
+        this.rate.setText(rate);
+    }
     
+}
     

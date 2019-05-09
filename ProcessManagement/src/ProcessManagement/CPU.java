@@ -24,10 +24,12 @@ public class CPU extends Thread {
             try
             {
                 Process runningProcess = null;
-                if (!scheduler.readyQueue.isEmpty())
+                if (!scheduler.readyQueue.isEmpty()) {
                     runningProcess = scheduler.readyQueue.take(); // removes it from readyQueue
+                    frame.setQueueStatus("Queue is not empty");
+                }
                 else {
-                    System.out.println("Queue is empty");
+                    frame.setQueueStatus("Queue is empty");
                     Thread.sleep(4);
                     continue;
                 }

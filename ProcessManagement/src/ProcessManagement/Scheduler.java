@@ -26,8 +26,6 @@ public class Scheduler {
         readyQueue = new ArrayBlockingQueue<Process>(MAX_QUEUE_SIZE, true);
         this.cpu = new CPU(this,frame);
         
-        
-        //int index = 0;
     }//end of constructor
     
     private int addProcess(Process p)
@@ -39,26 +37,12 @@ public class Scheduler {
             return 0;
         }
         return 1;
-//        if(index >= readyQueue.length)      //ready queue is full
-//        {
-//            System.out.println("READY QUEUE IS AT MAX SIZE");
-//            return 1;
-//        }//end if
-//        else
-//        {
-//            readyQueue[index] = new Process(p);
-//            index++;
-//            return 0;
-//        }//end else
     }//end add process
     
     
     
     public void createProcesses()  //populate ready queue
-    {
-        
-        
-        
+    {      
         Thread thread1 = new Thread(){
             public void run() {
                 // Create 1002 processes
@@ -83,16 +67,14 @@ public class Scheduler {
                         }
 
                     Process p = new Process(Scheduler.this.pid, Process.WAITING, (time), runTime);    //constructs Process
-                    
-                    
-                    
-                  
-                    
+                    double throughput = (double)(pid-1000) / (double) time;
+                    System.out.println("throughput=" + throughput + " num=" + (pid-1000) + " time=" + time);
                     
                     Scheduler.this.pid++;
                     try {
                     Scheduler.this.readyQueue.put(p);
                     frame.onProcessCreation(readyQueue);
+                    frame.setThroughput(Double.toString(throughput));
                     } catch (InterruptedException e){
                         e.printStackTrace();
                     }
@@ -103,11 +85,10 @@ public class Scheduler {
             
         };
         thread1.start();
+        
         SwingUtilities.invokeLater(new Runnable(){
-                        
-                        
+                                                
                         public void run() {
-                            
                             
                             try {
                                 Thread.sleep(500);
@@ -117,27 +98,11 @@ public class Scheduler {
                             frame.setSize(500,500);
                             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             frame.setVisible(true);
-                            
-                            
-                            
-                            
-                            
-                            
+       
                         }
                     });
         
     }//end of create proccess
     
-    
-    
-
-   
-   
-   
-    
-
-    
-    
-
-    
+        
 }//end of class
