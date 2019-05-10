@@ -1,7 +1,8 @@
 package ProcessManagement;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
+//import java.util.Date;
+//import java.util.concurrent.TimeUnit;
+//import java.lang.System;
 
 /**
  * 
@@ -10,11 +11,13 @@ import java.util.concurrent.TimeUnit;
 public class CPU extends Thread {
     private final Scheduler scheduler;
     private final MainFrame frame;
+    private long startTime;
 	
     public CPU(Scheduler scheduler, MainFrame frame)
     {
     	this.scheduler = scheduler;
         this.frame = frame;
+        startTime = System.currentTimeMillis();
     }
     
     @Override
@@ -35,7 +38,13 @@ public class CPU extends Thread {
                 }
                 runningProcess.setState(Process.RUNNING);
                 Thread.sleep(runningProcess.getRunTime());
-                frame.onExecution(runningProcess); 
+                
+                int pid = runningProcess.getPID();
+                long time = System.currentTimeMillis() - this.startTime;
+                frame.onExecution(pid, time, scheduler.MAX_QUEUE_SIZE - scheduler.readyQueue.remainingCapacity()); 
+                double throughput = (double)(pid-1000) / (double) time;
+                System.out.println("throughput=" + throughput + " num=" + (pid-1000) + " time=" + time);
+                frame.setThroughput(Double.toString(throughput));
             }//end try
             catch(InterruptedException ex)
             {

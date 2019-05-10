@@ -12,14 +12,13 @@ import javax.swing.SwingUtilities;
 
 
 public class Scheduler {
-    private static final int MAX_QUEUE_SIZE = 1001;
-    //private int index;
+    public static final int MAX_QUEUE_SIZE = 1001;
     private CPU cpu;
     ArrayBlockingQueue<Process> readyQueue;
     int time = 0;
-    int pid = 1000;
-    Process process;
-    MainFrame frame = new MainFrame();
+    private int pid = 1000;
+    private Process process;
+    private MainFrame frame = new MainFrame();
     
     public Scheduler()
     {
@@ -48,7 +47,7 @@ public class Scheduler {
                 // Create 1002 processes
                 Scheduler.this.cpu.start();
                 
-                while(pid < 2002) {
+                while(pid < 3002) {
                     Random rand = new Random();
                     int meanRunTime = 10;
                     int sd = 2;
@@ -67,14 +66,12 @@ public class Scheduler {
                         }
 
                     Process p = new Process(Scheduler.this.pid, Process.WAITING, (time), runTime);    //constructs Process
-                    double throughput = (double)(pid-1000) / (double) time;
-                    System.out.println("throughput=" + throughput + " num=" + (pid-1000) + " time=" + time);
                     
                     Scheduler.this.pid++;
                     try {
                     Scheduler.this.readyQueue.put(p);
-                    frame.onProcessCreation(readyQueue);
-                    frame.setThroughput(Double.toString(throughput));
+                    frame.onProcessCreation(pid, time, MAX_QUEUE_SIZE - readyQueue.remainingCapacity());
+                    
                     } catch (InterruptedException e){
                         e.printStackTrace();
                     }
