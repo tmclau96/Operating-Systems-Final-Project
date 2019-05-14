@@ -37,9 +37,9 @@ public class CPU extends Thread {
                 }
                 runningProcess.setState(Process.RUNNING);
                 Thread.sleep(runningProcess.getRunTime());
-                frame.onExecution(runningProcess); 
-                
                 int pid = runningProcess.getPID();
+                frame.onExecution(Integer.toString(pid)); 
+                
                 long time = System.currentTimeMillis() - this.startTime;
                 double throughput = (double)(pid-1000) / (double) time;
                 frame.setThroughput(Double.toString(throughput), Long.toString(time));

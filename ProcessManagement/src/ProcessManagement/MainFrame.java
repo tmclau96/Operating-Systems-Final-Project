@@ -80,17 +80,13 @@ public class MainFrame extends JFrame{
                  
     }
 
-    public void onProcessCreation(ArrayBlockingQueue<Process> p) {
-        synchronized(p){
-            processTextArea.setText(processTextArea.getText() + p.peek().toString());
+    public void onProcessCreation(String process) {
+        processTextArea.setText(process);
             
-        }
     }
     
-    public void onExecution(Process p) {
-        synchronized(p){
-            CPUTextArea.setText(CPUTextArea.getText()+ " Executed Process: " +p.getPID() + "\n");
-        }
+    public void onExecution(String pid) {
+        CPUTextArea.setText(CPUTextArea.getText()+ " Executed Process: " + pid + "\n");
     }
 
     public void setQueueStatus(String status) {
