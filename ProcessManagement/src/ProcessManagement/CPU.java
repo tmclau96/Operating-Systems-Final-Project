@@ -10,11 +10,13 @@ import java.util.concurrent.TimeUnit;
 public class CPU extends Thread {
     private final Scheduler scheduler;
     private final MainFrame frame;
+    private long startTime;
 	
     public CPU(Scheduler scheduler, MainFrame frame)
     {
     	this.scheduler = scheduler;
         this.frame = frame;
+        this.startTime = System.currentTimeMillis();
     }
     
     @Override
@@ -36,6 +38,11 @@ public class CPU extends Thread {
                 runningProcess.setState(Process.RUNNING);
                 Thread.sleep(runningProcess.getRunTime());
                 frame.onExecution(runningProcess); 
+                
+                int pid = runningProcess.getPID();
+                long time = System.currentTimeMillis() - this.startTime;
+                double throughput = (double)(pid-1000) / (double) time;
+                frame.setThroughput(Double.toString(throughput), Long.toString(time));
             }//end try
             catch(InterruptedException ex)
             {

@@ -48,7 +48,7 @@ public class Scheduler {
                 // Create 1002 processes
                 Scheduler.this.cpu.start();
                 
-                while(pid < 2002) {
+                while(pid < 9002) {
                     Random rand = new Random();
                     int meanRunTime = 10;
                     int sd = 2;
@@ -67,14 +67,14 @@ public class Scheduler {
                         }
 
                     Process p = new Process(Scheduler.this.pid, Process.WAITING, (time), runTime);    //constructs Process
-                    double throughput = (double)(pid-1000) / (double) time;
-                    System.out.println("throughput=" + throughput + " num=" + (pid-1000) + " time=" + time);
+                   // double throughput = (double)(pid-1000) / (double) time;
+                   // System.out.println("throughput=" + throughput + " num=" + (pid-1000) + " time=" + time);
                     
                     Scheduler.this.pid++;
                     try {
                     Scheduler.this.readyQueue.put(p);
                     frame.onProcessCreation(readyQueue);
-                    frame.setThroughput(Double.toString(throughput));
+                   // frame.setThroughput(Double.toString(throughput));
                     } catch (InterruptedException e){
                         e.printStackTrace();
                     }

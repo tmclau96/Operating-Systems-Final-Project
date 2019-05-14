@@ -19,6 +19,7 @@ public class MainFrame extends JFrame{
     private JTextArea CPUTextArea = new JTextArea();
     private JTextField queueStatus = new JTextField();
     private JTextField rate = new JTextField();
+    private JTextField time = new JTextField();
     
     public MainFrame(){
             
@@ -49,10 +50,15 @@ public class MainFrame extends JFrame{
            JLabel rateLabel = new JLabel("Throughput:");
            rate.setEditable(false);
            rate.setSize(100, 100);
+           JLabel timeLabel = new JLabel("Time:");
+           time.setEditable(false);
+           time.setSize(100, 100);
            JPanel ratePanel = new JPanel();
            ratePanel.setLayout(new FlowLayout());
            ratePanel.add(rateLabel);
            ratePanel.add(rate);
+           ratePanel.add(timeLabel);
+           ratePanel.add(time);
            centerPanel.add(ratePanel, BorderLayout.CENTER);
            
         //Creation of Components that will go into the Frame
@@ -91,8 +97,9 @@ public class MainFrame extends JFrame{
         queueStatus.setText(status);
     }
     
-    public void setThroughput(String rate) {
+    public void setThroughput(String rate, String time) {
         this.rate.setText(rate);
+        this.time.setText(time);
     }
     
 }
